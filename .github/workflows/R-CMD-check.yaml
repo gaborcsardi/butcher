@@ -22,18 +22,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: 'release'}
-
-          - {os: windows-latest, r: 'release'}
-          # Don't use Windows 3.6 build to avoid igraph always being
-          # installed from source and failing
-          # Use 3.6 to trigger usage of RTools35
-          # - {os: windows-latest, r: '3.6'}
-
-          # Use older ubuntu to maximise backward compatibility
-          - {os: ubuntu-18.04,   r: 'devel', http-user-agent: 'release'}
-          - {os: ubuntu-18.04,   r: 'release'}
-          - {os: ubuntu-18.04,   r: 'oldrel-1'}
           - {os: ubuntu-18.04,   r: 'oldrel-2'}
           - {os: ubuntu-18.04,   r: 'oldrel-3'}
           # Don't use R 3.4 build. survival, mda, TH.data require >=3.5.
@@ -56,10 +44,10 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          pak-version: devel
           extra-packages:
             any::rcmdcheck,
-            randomForest=?ignore-before-r=4.1.0,
-            flexsurv=?ignore-before-r=4.0.0
+            randomForest=?ignore-before-r=4.1.0
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
